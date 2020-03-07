@@ -15,13 +15,16 @@ version = project.mod_version
 group = project.maven_group
 
 def ENV = System.getenv()
-version = version + "+" + (ENV.BUILD_NUMBER ? ("build." + ENV.BUILD_NUMBER) : "custom")
+version = "${version}-${project.minecraft_version}" + "+" + (ENV.BUILD_NUMBER ? ("build." + ENV.BUILD_NUMBER) : "build.custom")
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	//Added to fix it failing to compile, needs looking into some more.
+	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 }
 
 minecraft {
@@ -69,6 +72,7 @@ publishing {
 	}
 
 	repositories {
+		mavenLocal()
 		if (project.hasProperty('mavenPass')) {
 			maven {
 				url = "http://mavenupload.modmuss50.me/"
@@ -88,8 +92,8 @@ curseforge {
 	project {
 		id = '308702'
 		changelog = 'A changelog can be found at https://github.com/Prospector/ModMenu'
-		releaseType = 'release'
-		addGameVersion '1.15.2'
+		releaseType = 'beta'
+		addGameVersion '1.16-Snapshot'
 		mainArtifact(remapJar) {
 			displayName = "ModMenu v$version for $project.minecraft_version"
 		}
