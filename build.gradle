@@ -72,16 +72,12 @@ publishing {
 	}
 
 	repositories {
-		// You should define the values of 'publishUrl', 'publishUsername' and 'publishPassword' in a gradle.properties file.
-		// See: https://docs.gradle.org/current/userguide/build_environment.html#sec:gradle_configuration_properties
-		if (project.hasProperty('publishUrl') &&
-			project.hasProperty('publishUsername') &&
-			project.hasProperty('publishPassword')) {
+		if (project.hasProperty('mavenPass')) {
 			maven {
-				url = "${publishUrl}"
+				url = "http://mavenupload.modmuss50.me/"
 				credentials {
-					username = "${publishUsername}"
-					password = "${publishPassword}"
+					username = "buildslave"
+					password = project.getProperty('mavenPass')
 				}
 			}
 		}
