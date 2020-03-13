@@ -15,7 +15,7 @@ version = project.mod_version
 group = project.maven_group
 
 def ENV = System.getenv()
-version = "${version}-${project.minecraft_version}" + "+" + (ENV.BUILD_NUMBER ? ("build." + ENV.BUILD_NUMBER) : "build.custom")
+version = "${version}-${project.minecraft_version}" + (forkAuthor ? "-${forkAuthor}" : ("+" + (ENV.BUILD_NUMBER ? ("build." + ENV.BUILD_NUMBER) : "custom")))
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
